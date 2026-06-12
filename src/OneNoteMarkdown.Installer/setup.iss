@@ -36,7 +36,7 @@ SolidCompression=yes
 WizardStyle=modern
 
 [Languages]
-Name: "chinesesimplified"; MessagesFile: "compiler:Languages\ChineseSimplified.isl"
+Name: "chinesesimplified"; MessagesFile: "ChineseSimplified.isl"
 
 [Files]
 Source: "..\OneNoteMarkdown.AddIn\bin\Release\OneNoteMarkdown.AddIn.dll"; DestDir: "{app}"; Flags: ignoreversion
