@@ -1,0 +1,25 @@
+## .NET
+bin/
+obj/
+*.user
+*.suo
+*.sln.docstates
+*.vs/
+packages/
+*.nupkg
+
+## Build output
+Output/
+Release/
+Debug/
+
+## Installer
+*.exe
+*.zip
+
+## Logs
+*.log
+
+## OS
+Thumbs.db
+.DS_Store
