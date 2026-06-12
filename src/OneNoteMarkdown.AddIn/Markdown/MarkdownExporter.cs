@@ -32,12 +32,14 @@ namespace OneNoteMarkdown.Markdown
 
                 foreach (TextBlock block in outline.TextBlocks)
                 {
-                    if (block == null || string.IsNullOrWhiteSpace(block.Text))
+                    if (block == null || block.IsMarkdownContinuation)
                     {
                         continue;
                     }
 
-                    string text = (block.Text ?? string.Empty).Trim();
+                    string text = !string.IsNullOrEmpty(block.MarkdownSource)
+                        ? block.MarkdownSource.Trim()
+                        : (block.Text ?? string.Empty).Trim();
                     if (text.Length == 0)
                     {
                         continue;
@@ -49,6 +51,12 @@ namespace OneNoteMarkdown.Markdown
                     }
 
                     firstLine = false;
+
+                    if (!string.IsNullOrEmpty(block.MarkdownSource))
+                    {
+                        builder.Append(text);
+                        continue;
+                    }
 
                     int indent = block.IndentLevel < 0 ? 0 : block.IndentLevel;
                     for (int i = 0; i < indent; i++)

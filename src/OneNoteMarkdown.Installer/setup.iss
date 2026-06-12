@@ -1,14 +1,35 @@
+#ifndef InstallerArch
+  #define InstallerArch "x64"
+#endif
+
+#if InstallerArch == "x86"
+  #define InstallerSuffix "x86"
+  #define InstallerDefaultDir "{autopf32}\OneNoteMarkdown"
+  #define InstallerArchitectures "x86compatible"
+  #define ComRoot "HKCR32"
+  #define TypeLibPlatform "win32"
+#else
+  #define InstallerSuffix "x64"
+  #define InstallerDefaultDir "{autopf64}\OneNoteMarkdown"
+  #define InstallerArchitectures "x64compatible"
+  #define ComRoot "HKCR64"
+  #define TypeLibPlatform "win64"
+#endif
+
 [Setup]
 AppId={{7D0C9CB6-5D83-4E17-89D5-1C8A285F52B4}
 AppName=OneNote Markdown
-AppVersion=1.0.0
+AppVersion=1.1.0
 AppPublisher=OneNote Markdown
-DefaultDirName={autopf}\OneNoteMarkdown
+DefaultDirName={#InstallerDefaultDir}
 DefaultGroupName=OneNote Markdown
 DisableProgramGroupPage=yes
-OutputBaseFilename=OneNoteMarkdownSetup
-ArchitecturesAllowed=x86 x64compatible
+OutputDir=Output
+OutputBaseFilename=OneNoteMarkdownSetup-{#InstallerSuffix}
+ArchitecturesAllowed={#InstallerArchitectures}
+#if InstallerArch == "x64"
 ArchitecturesInstallIn64BitMode=x64compatible
+#endif
 PrivilegesRequired=admin
 Compression=lzma2
 SolidCompression=yes
@@ -33,42 +54,38 @@ Root: HKCU; Subkey: "Software\Microsoft\Office\OneNote\AddIns\OneNoteMarkdown.Co
 Root: HKCU; Subkey: "Software\Microsoft\Office\OneNote\AddIns\OneNoteMarkdown.Connect"; ValueType: string; ValueName: "FriendlyName"; ValueData: "OneNote Markdown"
 Root: HKCU; Subkey: "Software\Microsoft\Office\OneNote\AddIns\OneNoteMarkdown.Connect"; ValueType: dword; ValueName: "LoadBehavior"; ValueData: "3"
 
-Root: HKCR; Subkey: "CLSID\{{0A92B61B-98B8-4E5D-BE2D-48EDB01ED177}"; ValueType: string; ValueData: "OneNoteMarkdown.AddIn.Connect"; Flags: uninsdeletekey
-Root: HKCR; Subkey: "CLSID\{{0A92B61B-98B8-4E5D-BE2D-48EDB01ED177}"; ValueType: string; ValueName: "AppID"; ValueData: "{{0A92B61B-98B8-4E5D-BE2D-48EDB01ED177}"
-Root: HKCR; Subkey: "CLSID\{{0A92B61B-98B8-4E5D-BE2D-48EDB01ED177}\Implemented Categories\{{62C8FE65-4EBB-45E7-B440-6E39B2CDBF29}"; Flags: uninsdeletekey
-Root: HKCR; Subkey: "CLSID\{{0A92B61B-98B8-4E5D-BE2D-48EDB01ED177}\InprocServer32"; ValueType: string; ValueData: "mscoree.dll"; Flags: uninsdeletekey
-Root: HKCR; Subkey: "CLSID\{{0A92B61B-98B8-4E5D-BE2D-48EDB01ED177}\InprocServer32"; ValueType: string; ValueName: "ThreadingModel"; ValueData: "Both"
-Root: HKCR; Subkey: "CLSID\{{0A92B61B-98B8-4E5D-BE2D-48EDB01ED177}\InprocServer32"; ValueType: string; ValueName: "Class"; ValueData: "OneNoteMarkdown.AddIn.Connect"
-Root: HKCR; Subkey: "CLSID\{{0A92B61B-98B8-4E5D-BE2D-48EDB01ED177}\InprocServer32"; ValueType: string; ValueName: "Assembly"; ValueData: "OneNoteMarkdown.AddIn, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null"
-Root: HKCR; Subkey: "CLSID\{{0A92B61B-98B8-4E5D-BE2D-48EDB01ED177}\InprocServer32"; ValueType: string; ValueName: "RuntimeVersion"; ValueData: "v4.0.30319"
-Root: HKCR; Subkey: "CLSID\{{0A92B61B-98B8-4E5D-BE2D-48EDB01ED177}\InprocServer32"; ValueType: string; ValueName: "CodeBase"; ValueData: "{app}\OneNoteMarkdown.AddIn.dll"
-Root: HKCR; Subkey: "CLSID\{{0A92B61B-98B8-4E5D-BE2D-48EDB01ED177}\InprocServer32\1.0.0.0"; ValueType: string; ValueName: "Class"; ValueData: "OneNoteMarkdown.AddIn.Connect"
-Root: HKCR; Subkey: "CLSID\{{0A92B61B-98B8-4E5D-BE2D-48EDB01ED177}\InprocServer32\1.0.0.0"; ValueType: string; ValueName: "Assembly"; ValueData: "OneNoteMarkdown.AddIn, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null"
-Root: HKCR; Subkey: "CLSID\{{0A92B61B-98B8-4E5D-BE2D-48EDB01ED177}\InprocServer32\1.0.0.0"; ValueType: string; ValueName: "RuntimeVersion"; ValueData: "v4.0.30319"
-Root: HKCR; Subkey: "CLSID\{{0A92B61B-98B8-4E5D-BE2D-48EDB01ED177}\InprocServer32\1.0.0.0"; ValueType: string; ValueName: "CodeBase"; ValueData: "{app}\OneNoteMarkdown.AddIn.dll"
-Root: HKCR; Subkey: "CLSID\{{0A92B61B-98B8-4E5D-BE2D-48EDB01ED177}\ProgId"; ValueType: string; ValueData: "OneNoteMarkdown.Connect"
-Root: HKCR; Subkey: "CLSID\{{0A92B61B-98B8-4E5D-BE2D-48EDB01ED177}\Programmable"; ValueType: string; ValueData: ""
-Root: HKCR; Subkey: "CLSID\{{0A92B61B-98B8-4E5D-BE2D-48EDB01ED177}\TypeLib"; ValueType: string; ValueData: "{{5C3E37E8-7D8A-41E5-9D3D-6B5A1C92B7D1}"
-Root: HKCR; Subkey: "CLSID\{{0A92B61B-98B8-4E5D-BE2D-48EDB01ED177}\VersionIndependentProgID"; ValueType: string; ValueData: "OneNoteMarkdown.Connect"
+Root: {#ComRoot}; Subkey: "CLSID\{{0A92B61B-98B8-4E5D-BE2D-48EDB01ED177}"; ValueType: string; ValueData: "OneNoteMarkdown.AddIn.Connect"; Flags: uninsdeletekey
+Root: {#ComRoot}; Subkey: "CLSID\{{0A92B61B-98B8-4E5D-BE2D-48EDB01ED177}"; ValueType: string; ValueName: "AppID"; ValueData: "{{0A92B61B-98B8-4E5D-BE2D-48EDB01ED177}"
+Root: {#ComRoot}; Subkey: "CLSID\{{0A92B61B-98B8-4E5D-BE2D-48EDB01ED177}\Implemented Categories\{{62C8FE65-4EBB-45E7-B440-6E39B2CDBF29}"; Flags: uninsdeletekey
+Root: {#ComRoot}; Subkey: "CLSID\{{0A92B61B-98B8-4E5D-BE2D-48EDB01ED177}\InprocServer32"; ValueType: string; ValueData: "mscoree.dll"; Flags: uninsdeletekey
+Root: {#ComRoot}; Subkey: "CLSID\{{0A92B61B-98B8-4E5D-BE2D-48EDB01ED177}\InprocServer32"; ValueType: string; ValueName: "ThreadingModel"; ValueData: "Both"
+Root: {#ComRoot}; Subkey: "CLSID\{{0A92B61B-98B8-4E5D-BE2D-48EDB01ED177}\InprocServer32"; ValueType: string; ValueName: "Class"; ValueData: "OneNoteMarkdown.AddIn.Connect"
+Root: {#ComRoot}; Subkey: "CLSID\{{0A92B61B-98B8-4E5D-BE2D-48EDB01ED177}\InprocServer32"; ValueType: string; ValueName: "Assembly"; ValueData: "OneNoteMarkdown.AddIn, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null"
+Root: {#ComRoot}; Subkey: "CLSID\{{0A92B61B-98B8-4E5D-BE2D-48EDB01ED177}\InprocServer32"; ValueType: string; ValueName: "RuntimeVersion"; ValueData: "v4.0.30319"
+Root: {#ComRoot}; Subkey: "CLSID\{{0A92B61B-98B8-4E5D-BE2D-48EDB01ED177}\InprocServer32"; ValueType: string; ValueName: "CodeBase"; ValueData: "{app}\OneNoteMarkdown.AddIn.dll"
+Root: {#ComRoot}; Subkey: "CLSID\{{0A92B61B-98B8-4E5D-BE2D-48EDB01ED177}\InprocServer32\1.0.0.0"; ValueType: string; ValueName: "Class"; ValueData: "OneNoteMarkdown.AddIn.Connect"
+Root: {#ComRoot}; Subkey: "CLSID\{{0A92B61B-98B8-4E5D-BE2D-48EDB01ED177}\InprocServer32\1.0.0.0"; ValueType: string; ValueName: "Assembly"; ValueData: "OneNoteMarkdown.AddIn, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null"
+Root: {#ComRoot}; Subkey: "CLSID\{{0A92B61B-98B8-4E5D-BE2D-48EDB01ED177}\InprocServer32\1.0.0.0"; ValueType: string; ValueName: "RuntimeVersion"; ValueData: "v4.0.30319"
+Root: {#ComRoot}; Subkey: "CLSID\{{0A92B61B-98B8-4E5D-BE2D-48EDB01ED177}\InprocServer32\1.0.0.0"; ValueType: string; ValueName: "CodeBase"; ValueData: "{app}\OneNoteMarkdown.AddIn.dll"
+Root: {#ComRoot}; Subkey: "CLSID\{{0A92B61B-98B8-4E5D-BE2D-48EDB01ED177}\ProgId"; ValueType: string; ValueData: "OneNoteMarkdown.Connect"
+Root: {#ComRoot}; Subkey: "CLSID\{{0A92B61B-98B8-4E5D-BE2D-48EDB01ED177}\Programmable"; ValueType: string; ValueData: ""
+Root: {#ComRoot}; Subkey: "CLSID\{{0A92B61B-98B8-4E5D-BE2D-48EDB01ED177}\TypeLib"; ValueType: string; ValueData: "{{5C3E37E8-7D8A-41E5-9D3D-6B5A1C92B7D1}"
+Root: {#ComRoot}; Subkey: "CLSID\{{0A92B61B-98B8-4E5D-BE2D-48EDB01ED177}\VersionIndependentProgID"; ValueType: string; ValueData: "OneNoteMarkdown.Connect"
 
-Root: HKCR; Subkey: "AppID\{{0A92B61B-98B8-4E5D-BE2D-48EDB01ED177}"; ValueType: string; ValueData: "OneNoteMarkdown.AddIn"; Flags: uninsdeletekey
-Root: HKCR; Subkey: "AppID\{{0A92B61B-98B8-4E5D-BE2D-48EDB01ED177}"; ValueType: string; ValueName: "DllSurrogate"; ValueData: ""
-Root: HKCR; Subkey: "AppID\OneNoteMarkdown.AddIn.dll"; ValueType: string; ValueName: "AppID"; ValueData: "{{0A92B61B-98B8-4E5D-BE2D-48EDB01ED177}"; Flags: uninsdeletekey
+Root: {#ComRoot}; Subkey: "AppID\{{0A92B61B-98B8-4E5D-BE2D-48EDB01ED177}"; ValueType: string; ValueData: "OneNoteMarkdown.AddIn"; Flags: uninsdeletekey
+Root: {#ComRoot}; Subkey: "AppID\{{0A92B61B-98B8-4E5D-BE2D-48EDB01ED177}"; ValueType: string; ValueName: "DllSurrogate"; ValueData: ""
+Root: {#ComRoot}; Subkey: "AppID\OneNoteMarkdown.AddIn.dll"; ValueType: string; ValueName: "AppID"; ValueData: "{{0A92B61B-98B8-4E5D-BE2D-48EDB01ED177}"; Flags: uninsdeletekey
 
-Root: HKCR; Subkey: "TypeLib\{{5C3E37E8-7D8A-41E5-9D3D-6B5A1C92B7D1}\1.0"; ValueType: string; ValueData: "OneNote Markdown 插件"; Flags: uninsdeletekey
-Root: HKCR; Subkey: "TypeLib\{{5C3E37E8-7D8A-41E5-9D3D-6B5A1C92B7D1}\1.0\0\win64"; ValueType: string; ValueData: "{app}\OneNoteMarkdown.AddIn.tlb"
-Root: HKCR; Subkey: "TypeLib\{{5C3E37E8-7D8A-41E5-9D3D-6B5A1C92B7D1}\1.0\FLAGS"; ValueType: string; ValueData: "0"
-Root: HKCR; Subkey: "TypeLib\{{5C3E37E8-7D8A-41E5-9D3D-6B5A1C92B7D1}\1.0\HELPDIR"; ValueType: string; ValueData: "{app}"
+Root: {#ComRoot}; Subkey: "TypeLib\{{5C3E37E8-7D8A-41E5-9D3D-6B5A1C92B7D1}\1.0"; ValueType: string; ValueData: "OneNote Markdown 插件"; Flags: uninsdeletekey
+Root: {#ComRoot}; Subkey: "TypeLib\{{5C3E37E8-7D8A-41E5-9D3D-6B5A1C92B7D1}\1.0\0\{#TypeLibPlatform}"; ValueType: string; ValueData: "{app}\OneNoteMarkdown.AddIn.tlb"
+Root: {#ComRoot}; Subkey: "TypeLib\{{5C3E37E8-7D8A-41E5-9D3D-6B5A1C92B7D1}\1.0\FLAGS"; ValueType: string; ValueData: "0"
+Root: {#ComRoot}; Subkey: "TypeLib\{{5C3E37E8-7D8A-41E5-9D3D-6B5A1C92B7D1}\1.0\HELPDIR"; ValueType: string; ValueData: "{app}"
 
-Root: HKCR; Subkey: "OneNoteMarkdown.Connect"; ValueType: string; ValueData: "OneNoteMarkdown.AddIn.Connect"; Flags: uninsdeletekey
-Root: HKCR; Subkey: "OneNoteMarkdown.Connect\CLSID"; ValueType: string; ValueData: "{{0A92B61B-98B8-4E5D-BE2D-48EDB01ED177}"
-Root: HKCR; Subkey: "OneNoteMarkdown.Connect\CurVer"; ValueType: string; ValueData: "OneNoteMarkdown.Connect.1"
-Root: HKCR; Subkey: "OneNoteMarkdown.Connect.1"; ValueType: string; ValueData: "OneNoteMarkdown.AddIn.Connect"; Flags: uninsdeletekey
-Root: HKCR; Subkey: "OneNoteMarkdown.Connect.1\CLSID"; ValueType: string; ValueData: "{{0A92B61B-98B8-4E5D-BE2D-48EDB01ED177}"
-
-[UninstallRun]
-Filename: "{dotnet4064}\RegAsm.exe"; Parameters: "/u ""{app}\OneNoteMarkdown.AddIn.dll"""; StatusMsg: "正在注销 64 位 COM 组件..."; Flags: runhidden waituntilterminated skipifdoesntexist; Check: IsWin64
-Filename: "{dotnet40}\RegAsm.exe"; Parameters: "/u ""{app}\OneNoteMarkdown.AddIn.dll"""; StatusMsg: "正在注销 32 位 COM 组件..."; Flags: runhidden waituntilterminated skipifdoesntexist
+Root: {#ComRoot}; Subkey: "OneNoteMarkdown.Connect"; ValueType: string; ValueData: "OneNoteMarkdown.AddIn.Connect"; Flags: uninsdeletekey
+Root: {#ComRoot}; Subkey: "OneNoteMarkdown.Connect\CLSID"; ValueType: string; ValueData: "{{0A92B61B-98B8-4E5D-BE2D-48EDB01ED177}"
+Root: {#ComRoot}; Subkey: "OneNoteMarkdown.Connect\CurVer"; ValueType: string; ValueData: "OneNoteMarkdown.Connect.1"
+Root: {#ComRoot}; Subkey: "OneNoteMarkdown.Connect.1"; ValueType: string; ValueData: "OneNoteMarkdown.AddIn.Connect"; Flags: uninsdeletekey
+Root: {#ComRoot}; Subkey: "OneNoteMarkdown.Connect.1\CLSID"; ValueType: string; ValueData: "{{0A92B61B-98B8-4E5D-BE2D-48EDB01ED177}"
 
 [UninstallDelete]
 Type: filesandordirs; Name: "{app}"

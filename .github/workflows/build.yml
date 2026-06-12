@@ -1,0 +1,43 @@
+name: Build
+
+on:
+  push:
+    branches: [master]
+    tags: ["v*"]
+  pull_request:
+  workflow_dispatch:
+
+jobs:
+  build:
+    runs-on: windows-latest
+
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Install Inno Setup
+        run: choco install innosetup --no-progress -y
+
+      - name: Build, test, and package
+        shell: powershell
+        run: powershell -ExecutionPolicy Bypass -File .\build.ps1
+
+      - name: Upload x86 installer
+        uses: actions/upload-artifact@v4
+        with:
+          name: OneNoteMarkdownSetup-x86
+          path: src/OneNoteMarkdown.Installer/Output/OneNoteMarkdownSetup-x86.exe
+
+      - name: Upload x64 installer
+        uses: actions/upload-artifact@v4
+        with:
+          name: OneNoteMarkdownSetup-x64
+          path: src/OneNoteMarkdown.Installer/Output/OneNoteMarkdownSetup-x64.exe
+
+      - name: Publish GitHub release
+        if: startsWith(github.ref, 'refs/tags/v')
+        uses: softprops/action-gh-release@v2
+        with:
+          files: |
+            src/OneNoteMarkdown.Installer/Output/OneNoteMarkdownSetup-x86.exe
+            src/OneNoteMarkdown.Installer/Output/OneNoteMarkdownSetup-x64.exe
+          generate_release_notes: true

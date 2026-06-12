@@ -48,14 +48,17 @@
   <ItemGroup>
     <Reference Include="Extensibility, Version=7.0.3300.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a">
       <EmbedInteropTypes>False</EmbedInteropTypes>
+      <HintPath>ThirdParty\Office\Extensibility.dll</HintPath>
       <Private>True</Private>
     </Reference>
     <Reference Include="office, Version=15.0.0.0, Culture=neutral, PublicKeyToken=71e9bce111e9429c">
       <EmbedInteropTypes>False</EmbedInteropTypes>
+      <HintPath>ThirdParty\Office\office.dll</HintPath>
       <Private>True</Private>
     </Reference>
     <Reference Include="Microsoft.Office.Interop.OneNote, Version=15.0.0.0, Culture=neutral, PublicKeyToken=71e9bce111e9429c">
       <EmbedInteropTypes>False</EmbedInteropTypes>
+      <HintPath>ThirdParty\Office\Microsoft.Office.Interop.OneNote.dll</HintPath>
       <Private>True</Private>
     </Reference>
     <Reference Include="WpfMath">
@@ -68,6 +71,7 @@
     </Reference>
     <Reference Include="stdole, Version=7.0.3300.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a">
       <EmbedInteropTypes>False</EmbedInteropTypes>
+      <HintPath>ThirdParty\Office\stdole.dll</HintPath>
       <Private>True</Private>
     </Reference>
   </ItemGroup>

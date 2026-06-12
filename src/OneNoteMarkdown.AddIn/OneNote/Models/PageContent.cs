@@ -23,6 +23,8 @@ namespace OneNoteMarkdown.OneNote.Models
         public string ElementId { get; set; }
         public string Text { get; set; }
         public string RawHtml { get; set; }
+        public string MarkdownSource { get; set; }
+        public bool IsMarkdownContinuation { get; set; }
         public int IndentLevel { get; set; }
     }
 }

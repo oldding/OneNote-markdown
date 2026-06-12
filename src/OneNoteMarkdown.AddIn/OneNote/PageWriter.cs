@@ -359,7 +359,29 @@ namespace OneNoteMarkdown.OneNote
 
         private void UpdatePage(XDocument pageDoc)
         {
-            _app.UpdatePageContent(pageDoc.ToString(SaveOptions.DisableFormatting), DateTime.MinValue, XMLSchema.xs2013, false);
+            DateTime expectedLastModified = ParsePageLastModified(pageDoc);
+            _app.UpdatePageContent(
+                pageDoc.ToString(SaveOptions.DisableFormatting),
+                expectedLastModified,
+                XMLSchema.xs2013,
+                false);
+        }
+
+        private static DateTime ParsePageLastModified(XDocument pageDoc)
+        {
+            string value = pageDoc == null || pageDoc.Root == null
+                ? null
+                : (string)pageDoc.Root.Attribute("lastModifiedTime");
+            DateTime parsed;
+            if (DateTime.TryParse(
+                value,
+                CultureInfo.InvariantCulture,
+                DateTimeStyles.RoundtripKind,
+                out parsed))
+            {
+                return parsed;
+            }
+            return DateTime.MinValue;
         }
 
         private double CalculateNextOutlineY(XDocument pageDoc)
@@ -892,7 +914,7 @@ namespace OneNoteMarkdown.OneNote
             // Clear existing T children and meta, write raw source as plain T.
             targetOe.Elements(OneNs + "T").Remove();
             targetOe.Elements(OneNs + "Meta").Remove();
-            targetOe.RemoveAttributes(); // clear quickStyleIndex so it renders as normal paragraph
+            targetOe.Attribute("quickStyleIndex")?.Remove();
             targetOe.Add(new XElement(OneNs + "T", new XCData(SanitizeCData(WebUtility.HtmlEncode(markdownSource)))));
 
             UpdatePage(pageDoc);
@@ -926,6 +948,12 @@ namespace OneNoteMarkdown.OneNote
                             codeOe.AddFirst(new XElement(OneNs + "Meta",
                                 new XAttribute("name", "md-src"),
                                 new XAttribute("content", mdBase64)));
+                        }
+                        else if (result.Count > 0)
+                        {
+                            codeOe.AddFirst(new XElement(OneNs + "Meta",
+                                new XAttribute("name", "md-continuation"),
+                                new XAttribute("content", "true")));
                         }
                         result.Add(codeOe);
                     }
@@ -997,6 +1025,12 @@ namespace OneNoteMarkdown.OneNote
                     oe.AddFirst(new XElement(OneNs + "Meta",
                         new XAttribute("name", "md-src"),
                         new XAttribute("content", mdBase64)));
+                }
+                else if (result.Count > 0)
+                {
+                    oe.AddFirst(new XElement(OneNs + "Meta",
+                        new XAttribute("name", "md-continuation"),
+                        new XAttribute("content", "true")));
                 }
 
                 result.Add(oe);
