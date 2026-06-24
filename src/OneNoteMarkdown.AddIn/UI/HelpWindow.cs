@@ -48,7 +48,6 @@ namespace OneNoteMarkdown.UI
                 Padding = new Padding(12, 0, 0, 0)
             };
             _headerPanel.Controls.Add(headerLabel);
-            Controls.Add(_headerPanel);
 
             // Bottom panel with close button
             Panel bottomPanel = new Panel
@@ -65,25 +64,22 @@ namespace OneNoteMarkdown.UI
                 Anchor = AnchorStyles.Right | AnchorStyles.Bottom,
                 FlatStyle = FlatStyle.System
             };
-            _closeButton.Click += (s, e) => Close();
+            _closeButton.Click += delegate { Close(); };
             bottomPanel.Controls.Add(_closeButton);
             _closeButton.Location = new Point(bottomPanel.Width - _closeButton.Width - 16, 9);
-            bottomPanel.Resize += (s, e) =>
+            bottomPanel.Resize += delegate
             {
                 _closeButton.Location = new Point(bottomPanel.Width - _closeButton.Width - 16, 9);
             };
-            Controls.Add(bottomPanel);
 
-            // Split container
-            SplitContainer splitter = new SplitContainer
+            // Left tree panel
+            Panel treePanel = new Panel
             {
-                Dock = DockStyle.Fill,
-                SplitterDistance = 180,
-                FixedPanel = FixedPanel.Panel1,
-                BorderStyle = BorderStyle.None
+                Dock = DockStyle.Left,
+                Width = 180,
+                BackColor = Color.FromArgb(252, 252, 252)
             };
 
-            // Left: TreeView
             _treeView = new TreeView
             {
                 Dock = DockStyle.Fill,
@@ -96,23 +92,30 @@ namespace OneNoteMarkdown.UI
                 ItemHeight = 24
             };
             _treeView.AfterSelect += TreeView_AfterSelect;
-            splitter.Panel1.Controls.Add(_treeView);
-            splitter.Panel1.BackColor = Color.FromArgb(252, 252, 252);
+            treePanel.Controls.Add(_treeView);
+
+            // Splitter bar
+            Panel splitterBar = new Panel
+            {
+                Dock = DockStyle.Left,
+                Width = 1,
+                BackColor = Color.FromArgb(220, 220, 220)
+            };
 
             // Right: WebBrowser
             _browser = new WebBrowser
             {
                 Dock = DockStyle.Fill,
                 IsWebBrowserContextMenuEnabled = false,
-                ScriptErrorsSuppressed = true,
-                AllowNavigation = false
+                ScriptErrorsSuppressed = true
             };
-            splitter.Panel2.Controls.Add(_browser);
 
-            Controls.Add(splitter);
-
-            // Ensure Z-order: header on top, bottom on bottom
-            _headerPanel.BringToFront();
+            // Assembly order for Dock: Fill must be added first, then non-Fill
+            Controls.Add(_browser);
+            Controls.Add(splitterBar);
+            Controls.Add(treePanel);
+            Controls.Add(bottomPanel);
+            Controls.Add(_headerPanel);
             CancelButton = _closeButton;
         }
 
@@ -151,7 +154,8 @@ namespace OneNoteMarkdown.UI
 
         private void TreeView_AfterSelect(object sender, TreeViewEventArgs e)
         {
-            string tag = e.Node?.Tag as string;
+            if (e.Node == null) return;
+            string tag = e.Node.Tag as string;
             if (!string.IsNullOrEmpty(tag))
             {
                 ShowContent(tag);
