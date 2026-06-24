@@ -14,7 +14,7 @@ namespace OneNoteMarkdown.Logging
             "logs");
         private static readonly string LogFilePath = Path.Combine(LogDirectory, "onenotemarkdown.log");
         private static readonly string BackupLogFilePath = Path.Combine(LogDirectory, "onenotemarkdown.log.bak");
-        private static readonly UTF8Encoding Utf8WithBom = new UTF8Encoding(true);
+        private static readonly UTF8Encoding Utf8NoBom = new UTF8Encoding(false);
 
         public static void Initialize()
         {
@@ -81,19 +81,10 @@ namespace OneNoteMarkdown.Logging
 
         private static void AppendLogEntry(string logEntry)
         {
-            bool writeBom = !File.Exists(LogFilePath);
             using (FileStream stream = new FileStream(LogFilePath, FileMode.Append, FileAccess.Write, FileShare.Read))
+            using (StreamWriter writer = new StreamWriter(stream, Utf8NoBom))
             {
-                if (writeBom && stream.Length == 0)
-                {
-                    byte[] preamble = Utf8WithBom.GetPreamble();
-                    stream.Write(preamble, 0, preamble.Length);
-                }
-
-                using (StreamWriter writer = new StreamWriter(stream, Utf8WithBom))
-                {
-                    writer.WriteLine(logEntry);
-                }
+                writer.WriteLine(logEntry);
             }
         }
     }

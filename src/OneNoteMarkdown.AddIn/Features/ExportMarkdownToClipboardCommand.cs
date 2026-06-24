@@ -20,7 +20,16 @@ namespace OneNoteMarkdown.Features
                     return;
                 }
 
-                Clipboard.SetText(markdown, TextDataFormat.UnicodeText);
+                try
+                {
+                    Clipboard.SetText(markdown, TextDataFormat.UnicodeText);
+                }
+                catch (System.Runtime.InteropServices.ExternalException exClip)
+                {
+                    Logger.Error("Clipboard access failed", exClip);
+                    Msg.Show("剪贴板被占用，请稍后重试。", "OneNote Markdown", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                    return;
+                }
                 Logger.Info("ExportMarkdownToClipboardCommand completed");
                 Msg.Show("已复制当前页 Markdown 到剪贴板。", "OneNote Markdown", MessageBoxButtons.OK, MessageBoxIcon.Information);
             }

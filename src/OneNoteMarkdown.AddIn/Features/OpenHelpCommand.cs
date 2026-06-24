@@ -38,7 +38,13 @@ namespace OneNoteMarkdown.Features
                     return;
                 }
 
-                Process.Start("notepad.exe", "\"" + helpPath + "\"");
+                var psi = new ProcessStartInfo
+                {
+                    FileName = "notepad.exe",
+                    Arguments = "\"" + helpPath.Replace("\"", "") + "\"",
+                    UseShellExecute = false
+                };
+                Process.Start(psi);
             }
             catch (Exception ex)
             {

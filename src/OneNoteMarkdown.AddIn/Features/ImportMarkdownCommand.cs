@@ -1,5 +1,6 @@
 using System;
 using System.IO;
+using System.Text;
 using System.Windows.Forms;
 using OneNoteMarkdown.Logging;
 using OneNoteMarkdown.Markdown;
@@ -37,7 +38,14 @@ namespace OneNoteMarkdown.Features
                         return;
                     }
 
-                    string markdown = File.ReadAllText(dialog.FileName);
+                    FileInfo fileInfo = new FileInfo(dialog.FileName);
+                    if (fileInfo.Length > 10 * 1024 * 1024)
+                    {
+                        Msg.Show("文件过大（超过 10 MB），请选择较小的文件。", "OneNote Markdown", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                        return;
+                    }
+
+                    string markdown = File.ReadAllText(dialog.FileName, Encoding.UTF8);
                     if (string.IsNullOrWhiteSpace(markdown))
                     {
                         Msg.Show("所选 Markdown 文件为空。", "OneNote Markdown", MessageBoxButtons.OK, MessageBoxIcon.Warning);

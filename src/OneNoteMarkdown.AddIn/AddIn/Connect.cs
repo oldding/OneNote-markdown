@@ -51,8 +51,9 @@ namespace OneNoteMarkdown.AddIn
                 Logger.Initialize();
                 Logger.Info("Connect ctor invoked");
             }
-            catch
+            catch (Exception ex)
             {
+                System.Diagnostics.Debug.WriteLine("Logger init failed: " + ex.Message);
             }
         }
 

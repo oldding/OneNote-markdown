@@ -2,6 +2,7 @@ using System;
 using System.Collections.Generic;
 using System.Globalization;
 using System.IO;
+using OneNoteMarkdown.Logging;
 
 namespace OneNoteMarkdown.Settings
 {
@@ -86,8 +87,9 @@ namespace OneNoteMarkdown.Settings
                         "enable.code.lineNumber=false\r\n");
                 }
             }
-            catch
+            catch (Exception ex)
             {
+                Logger.Error("ThemeSettings: failed to create default file", ex);
             }
             return SettingsPath;
         }

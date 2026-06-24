@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Drawing;
 using System.Drawing.Imaging;
 using System.IO;
+using OneNoteMarkdown.Logging;
 
 namespace OneNoteMarkdown.Rendering
 {
@@ -62,8 +63,9 @@ namespace OneNoteMarkdown.Rendering
                     }
                 }
             }
-            catch
+            catch (Exception ex)
             {
+                Logger.Error("DiagramImageRenderer render failed for type=" + type, ex);
                 return null;
             }
         }

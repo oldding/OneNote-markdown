@@ -1,5 +1,6 @@
 using System;
 using System.IO;
+using System.Text;
 using System.Windows.Forms;
 using OneNoteMarkdown.Logging;
 using OneNoteMarkdown.UI;
@@ -33,7 +34,7 @@ namespace OneNoteMarkdown.Features
                         return;
                     }
 
-                    File.WriteAllText(dialog.FileName, markdown);
+                    File.WriteAllText(dialog.FileName, markdown, new UTF8Encoding(false));
                     Logger.Info("ExportMarkdownCommand completed");
                     Msg.Show("已导出当前页为 Markdown。", "OneNote Markdown", MessageBoxButtons.OK, MessageBoxIcon.Information);
                 }

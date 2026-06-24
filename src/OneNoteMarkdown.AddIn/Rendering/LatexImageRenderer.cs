@@ -1,5 +1,6 @@
 using System;
 using System.IO;
+using OneNoteMarkdown.Logging;
 using WpfMath;
 using WpfMath.Parsers;
 using XamlMath.Exceptions;
@@ -52,8 +53,9 @@ namespace OneNoteMarkdown.Rendering
             {
                 return false;
             }
-            catch
+            catch (Exception ex)
             {
+                Logger.Error("LatexImageRenderer unexpected error", ex);
                 return false;
             }
         }

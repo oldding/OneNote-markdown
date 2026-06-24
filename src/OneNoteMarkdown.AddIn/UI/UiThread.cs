@@ -85,7 +85,8 @@ namespace OneNoteMarkdown.UI
             if (ctx == null)
             {
                 // Pump failed to initialise; run inline as a last resort.
-                try { action(); } catch { }
+                try { action(); }
+                catch (Exception ex) { Logger.Error("UiThread inline fallback failed", ex); }
                 return;
             }
             ctx.Post(_ => action(), null);
@@ -114,12 +115,21 @@ namespace OneNoteMarkdown.UI
                 if (_pumpForm != null && !_pumpForm.IsDisposed)
                 {
                     try { _pumpForm.Invoke((Action)(() => _pumpForm.Close())); }
-                    catch { }
+                    catch (Exception ex) { Logger.Error("UiThread Shutdown: close pump form failed", ex); }
                 }
 
                 if (_thread != null && _thread.IsAlive)
                 {
                     try { _thread.Join(3000); }
+                    catch (Exception ex) { Logger.Error("UiThread Shutdown: thread join failed", ex); }
+                }
+
+                // Dispose the ManualResetEventSlim to release unmanaged resources.
+                ManualResetEventSlim ready = _ready;
+                _ready = null;
+                if (ready != null)
+                {
+                    try { ready.Dispose(); }
                     catch { }
                 }
 
