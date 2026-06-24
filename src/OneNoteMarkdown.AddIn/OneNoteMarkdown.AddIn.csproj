@@ -111,6 +111,7 @@
     <Compile Include="Settings\ThemeSettings.cs" />
     <Compile Include="UI\ForceForeground.cs" />
     <Compile Include="UI\FileDialogHost.cs" />
+    <Compile Include="UI\HelpWindow.cs" />
     <Compile Include="UI\Msg.cs" />
     <Compile Include="UI\UiThread.cs" />
     <Compile Include="UI\WindowWrapper.cs" />
