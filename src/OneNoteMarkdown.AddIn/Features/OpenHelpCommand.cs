@@ -11,8 +11,7 @@ namespace OneNoteMarkdown.Features
         {
             try
             {
-                HelpWindow window = new HelpWindow();
-                window.Show();
+                HelpWindow.ShowHelp();
             }
             catch (Exception ex)
             {
