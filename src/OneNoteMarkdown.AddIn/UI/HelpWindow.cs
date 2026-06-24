@@ -18,26 +18,15 @@ namespace OneNoteMarkdown.UI
             ShowContent("about");
         }
 
-        public static void ShowHelp()
-        {
-            HelpWindow win = new HelpWindow();
-            IWin32Window anchor = UiThread.Anchor;
-            if (anchor != null)
-            {
-                win.ShowDialog(new WindowWrapper(anchor.Handle));
-            }
-            else
-            {
-                win.ShowDialog();
-            }
-        }
-
         private void InitializeComponents()
         {
             Text = "OneNote Markdown - 帮助";
             Size = new Size(900, 640);
             MinimumSize = new Size(700, 480);
             StartPosition = FormStartPosition.CenterScreen;
+            FormBorderStyle = FormBorderStyle.Sizable;
+            ShowInTaskbar = true;
+            TopMost = true;
             Icon = null;
             ShowIcon = false;
 
@@ -124,6 +113,7 @@ namespace OneNoteMarkdown.UI
 
             // Ensure Z-order: header on top, bottom on bottom
             _headerPanel.BringToFront();
+            CancelButton = _closeButton;
         }
 
         private void PopulateTree()
