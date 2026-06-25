@@ -113,6 +113,7 @@
     <Compile Include="UI\FileDialogHost.cs" />
     <Compile Include="UI\HelpWindow.cs" />
     <Compile Include="UI\Msg.cs" />
+    <Compile Include="UI\SettingsDialog.cs" />
     <Compile Include="UI\UiThread.cs" />
     <Compile Include="UI\WindowWrapper.cs" />
   </ItemGroup>

@@ -1,8 +1,6 @@
 using System;
-using System.Diagnostics;
 using System.Windows.Forms;
 using OneNoteMarkdown.Logging;
-using OneNoteMarkdown.Settings;
 using OneNoteMarkdown.UI;
 
 namespace OneNoteMarkdown.Features
@@ -13,20 +11,10 @@ namespace OneNoteMarkdown.Features
         {
             try
             {
-                string path = ThemeSettings.EnsureDefaultFile();
-                if (string.IsNullOrWhiteSpace(path))
+                using (SettingsDialog dlg = new SettingsDialog())
                 {
-                    Msg.Show("无法定位主题配置文件。", "OneNote Markdown", MessageBoxButtons.OK, MessageBoxIcon.Warning);
-                    return;
+                    dlg.ShowDialog(UiThread.Anchor);
                 }
-
-                var psi = new ProcessStartInfo
-                {
-                    FileName = "notepad.exe",
-                    Arguments = "\"" + path.Replace("\"", "") + "\"",
-                    UseShellExecute = false
-                };
-                Process.Start(psi);
             }
             catch (Exception ex)
             {
