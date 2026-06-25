@@ -4,7 +4,7 @@ obj/
 *.user
 *.suo
 *.sln.docstates
-*.vs/
+.vs/
 packages/
 *.nupkg
 
@@ -23,3 +23,11 @@ Debug/
 ## OS
 Thumbs.db
 .DS_Store
+
+## Temp / generated
+temp/
+*.tmp
+
+## Docs (generated screenshots kept in repo)
+docs/*.png
+!docs/demo.png

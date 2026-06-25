@@ -1,81 +1,88 @@
+**English** | [中文](README.zh-CN.md)
+
 # OneNote Markdown
 
-在 Microsoft OneNote 中编写和渲染 Markdown 的插件。支持实时预览、LaTeX 公式、图表源码块和代码高亮。
+A Microsoft OneNote add-in for writing and rendering Markdown directly in your notes. Supports live preview, LaTeX formulas, diagram source blocks, and syntax highlighting.
 
-## 下载
+![OneNote Markdown Demo](docs/demo.png)
 
-请从仓库的 [Releases](https://github.com/oldding/OneNote-markdown/releases) 页面下载：
+## Download
 
-- `OneNoteMarkdownSetup-x86.exe`：适用于 32 位 OneNote
-- `OneNoteMarkdownSetup-x64.exe`：适用于 64 位 OneNote
+Download from the [Releases](https://github.com/oldding/OneNote-markdown/releases) page:
 
-## 功能
+- `OneNoteMarkdownSetup-x86.exe` — for 32-bit OneNote
+- `OneNoteMarkdownSetup-x64.exe` — for 64-bit OneNote
 
-- **Markdown 渲染** — 将 Markdown 文本渲染为格式化内容，支持标题、列表、代码块、表格等
-- **实时预览模式** — 在页面中创建源码区和预览区，编辑后自动刷新
-- **LaTeX 公式** — 支持行内和块级数学公式渲染
-- **图表源码块** — 识别 Mermaid 等围栏代码并以保留格式显示源码
-- **代码高亮** — 多种语言语法高亮
-- **导入/导出** — 导入 `.md` 文件渲染到页面，或将页面导出为 Markdown
-- **剪贴板支持** — 一键复制页面为 Markdown
+> The installer must match **OneNote's bitness**, not Windows'. A 64-bit Windows may still run 32-bit OneNote.
 
-## 快捷键
+## Features
 
-| 快捷键 | 功能 |
-|--------|------|
-| `F5` | 渲染整页 |
-| `F8` | 复制 Markdown 到剪贴板 |
-| `Ctrl+\` | 开启/关闭实时模式 |
+| Feature | Description |
+|---------|-------------|
+| **Markdown Rendering** | Render Markdown text as formatted content: headings, lists, code blocks, tables, and more |
+| **Live Preview** | Create source and preview zones on the page; auto-refresh after edits |
+| **LaTeX Formulas** | Inline and block math formula rendering |
+| **Diagram Source Blocks** | Detect fenced code blocks (e.g. Mermaid) and display source with preserved formatting |
+| **Code Highlighting** | Syntax highlighting for multiple languages |
+| **Import/Export** | Import `.md` files or export pages as Markdown |
+| **Clipboard Support** | One-click copy page as Markdown |
+| **Settings Dialog** | Configure fonts, sizes, LaTeX output, code line numbers, and UI language |
 
-## 使用方法
+## Shortcuts
 
-1. 查看 OneNote 的位数：`文件 → 帐户 → 关于 OneNote`
-2. 32 位 OneNote 安装 `OneNoteMarkdownSetup-x86.exe`
-3. 64 位 OneNote 安装 `OneNoteMarkdownSetup-x64.exe`
-4. 安装后，OneNote 功能区会出现 "Markdown" 选项卡
-5. 在页面中编写 Markdown 文本，点击"渲染整页"或按 `F5`
+| Key | Action |
+|-----|--------|
+| `F5` | Render page |
+| `F8` | Copy Markdown to clipboard |
+| `Ctrl+\` | Toggle live preview |
 
-安装包必须匹配 **OneNote 的位数**，不是 Windows 的位数。64 位 Windows 也可能安装了 32 位 OneNote。
+## Getting Started
 
-详细说明见 [HELP.md](HELP.md) 和 [PLUGIN_TEST_GUIDE.md](PLUGIN_TEST_GUIDE.md)。遇到加载问题时，先确认安装包与 OneNote 位数一致。
+1. Check OneNote bitness: `File → Account → About OneNote`
+2. Install the matching version (`x86` for 32-bit OneNote, `x64` for 64-bit)
+3. After installation, a "Markdown" tab appears in the OneNote ribbon
+4. Write Markdown text on a page, then click "Render Page" or press `F5`
 
-## 项目结构
+For detailed usage, see [HELP.md](HELP.md). For plugin testing guide, see [PLUGIN_TEST_GUIDE.md](PLUGIN_TEST_GUIDE.md).
+
+## Project Structure
 
 ```
 src/
-├── OneNoteMarkdown.AddIn/         # 插件主体
-│   ├── AddIn/                     # 插件入口与功能区处理
-│   ├── Features/                  # 功能命令（渲染、导入、导出等）
-│   ├── Markdown/                  # Markdown 解析与渲染引擎
-│   ├── OneNote/                   # OneNote API 交互
-│   ├── Rendering/                 # 公式与图表渲染
-│   ├── Settings/                  # 主题与配置
-│   └── UI/                        # UI 工具类
-└── OneNoteMarkdown.Installer/     # 安装程序（Inno Setup）
+├── OneNoteMarkdown.AddIn/         # Add-in core
+│   ├── AddIn/                     # Entry point & ribbon handling
+│   ├── Features/                  # Commands (render, import, export, etc.)
+│   ├── Markdown/                  # Markdown parser & renderer
+│   ├── OneNote/                   # OneNote API interaction
+│   ├── Localization/              # i18n (Chinese + English)
+│   ├── Rendering/                 # Formula & diagram rendering
+│   ├── Settings/                  # Theme & configuration
+│   └── UI/                        # UI components (Settings, Help dialogs)
+└── OneNoteMarkdown.Installer/     # Inno Setup installer
 ```
 
-## 技术栈
+## Tech Stack
 
 - C# / .NET Framework 4.8
 - OneNote COM Interop API
-- WPF（窗口交互）
-- Inno Setup（安装程序）
+- WPF / WinForms (UI dialogs)
+- Inno Setup (installer)
 
-构建所需的 Office Primary Interop Assemblies 位于 `src/OneNoteMarkdown.AddIn/ThirdParty/Office`，因此 CI 不需要预装 Microsoft Office。
+Office Primary Interop Assemblies are bundled at `src/OneNoteMarkdown.AddIn/ThirdParty/Office`, so CI does not require Microsoft Office pre-installed.
 
-## 构建与测试
+## Build & Test
 
 ```powershell
 powershell -ExecutionPolicy Bypass -File .\build.ps1
 ```
 
-构建完成后会生成：
+Build output:
 
 - `src/OneNoteMarkdown.Installer/Output/OneNoteMarkdownSetup-x86.exe`
 - `src/OneNoteMarkdown.Installer/Output/OneNoteMarkdownSetup-x64.exe`
 
-GitHub Actions 的每次构建也会上传同名的 x86/x64 安装包。
+GitHub Actions builds also upload both installers as artifacts.
 
-## 许可证
+## License
 
 MIT
