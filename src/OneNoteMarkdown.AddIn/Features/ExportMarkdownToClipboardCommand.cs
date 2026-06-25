@@ -1,5 +1,6 @@
 using System;
 using System.Windows.Forms;
+using OneNoteMarkdown.Localization;
 using OneNoteMarkdown.Logging;
 using OneNoteMarkdown.UI;
 
@@ -16,7 +17,7 @@ namespace OneNoteMarkdown.Features
                 string markdown = MarkdownExportService.ExportCurrentPageMarkdown(out pageTitle);
                 if (string.IsNullOrWhiteSpace(markdown))
                 {
-                    Msg.Show("当前页面内容为空，无法复制。", "OneNote Markdown", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                    Msg.Show(Loc.S("Msg.PageEmptyCopy"), Loc.S("Common.AppTitle"), MessageBoxButtons.OK, MessageBoxIcon.Warning);
                     return;
                 }
 
@@ -27,16 +28,16 @@ namespace OneNoteMarkdown.Features
                 catch (System.Runtime.InteropServices.ExternalException exClip)
                 {
                     Logger.Error("Clipboard access failed", exClip);
-                    Msg.Show("剪贴板被占用，请稍后重试。", "OneNote Markdown", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                    Msg.Show(Loc.S("Msg.ClipboardBusy"), Loc.S("Common.AppTitle"), MessageBoxButtons.OK, MessageBoxIcon.Warning);
                     return;
                 }
                 Logger.Info("ExportMarkdownToClipboardCommand completed");
-                Msg.Show("已复制当前页 Markdown 到剪贴板。", "OneNote Markdown", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                Msg.Show(Loc.S("Msg.CopySuccess"), Loc.S("Common.AppTitle"), MessageBoxButtons.OK, MessageBoxIcon.Information);
             }
             catch (Exception ex)
             {
                 Logger.Error("Export markdown to clipboard failed", ex);
-                Msg.Show("复制 Markdown 失败：" + ex.Message, "OneNote Markdown", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                Msg.Show(Loc.S("Msg.CopyFailed", ex.Message), Loc.S("Common.AppTitle"), MessageBoxButtons.OK, MessageBoxIcon.Error);
             }
         }
     }

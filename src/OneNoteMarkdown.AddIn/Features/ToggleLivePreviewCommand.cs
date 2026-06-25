@@ -1,5 +1,6 @@
 using System;
 using System.Windows.Forms;
+using OneNoteMarkdown.Localization;
 using OneNoteMarkdown.Logging;
 using OneNoteMarkdown.UI;
 
@@ -18,8 +19,8 @@ namespace OneNoteMarkdown.Features
 
                 if (wasEnabled != nowEnabled)
                 {
-                    Msg.Show(nowEnabled ? "实时模式已开启。" : "实时模式已关闭。",
-                        "OneNote Markdown",
+                    Msg.Show(nowEnabled ? Loc.S("Msg.LiveOn") : Loc.S("Msg.LiveOff"),
+                        Loc.S("Common.AppTitle"),
                         MessageBoxButtons.OK,
                         MessageBoxIcon.Information);
                 }
@@ -27,7 +28,7 @@ namespace OneNoteMarkdown.Features
             catch (Exception ex)
             {
                 Logger.Error("Toggle live preview failed", ex);
-                Msg.Show("切换实时模式失败：" + ex.Message, "OneNote Markdown", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                Msg.Show(Loc.S("Msg.LiveToggleFailed", ex.Message), Loc.S("Common.AppTitle"), MessageBoxButtons.OK, MessageBoxIcon.Error);
             }
         }
     }

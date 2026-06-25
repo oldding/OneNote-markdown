@@ -1,5 +1,6 @@
 using System;
 using System.Windows.Forms;
+using OneNoteMarkdown.Localization;
 using OneNoteMarkdown.Logging;
 using OneNoteMarkdown.UI;
 
@@ -19,7 +20,7 @@ namespace OneNoteMarkdown.Features
             catch (Exception ex)
             {
                 Logger.Error("Open help failed", ex);
-                Msg.Show("打开帮助失败：" + ex.Message, "OneNote Markdown", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                Msg.Show(Loc.S("Msg.HelpFailed", ex.Message), Loc.S("Common.AppTitle"), MessageBoxButtons.OK, MessageBoxIcon.Error);
             }
         }
     }

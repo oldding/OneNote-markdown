@@ -1,11 +1,14 @@
 using System;
+using System.Collections.Generic;
 using System.IO;
 using System.Reflection;
 using System.Runtime.InteropServices;
 using Extensibility;
 using Microsoft.Office.Core;
 using OneNoteMarkdown.Features;
+using OneNoteMarkdown.Localization;
 using OneNoteMarkdown.Logging;
+using OneNoteMarkdown.Settings;
 using OneNoteMarkdown.UI;
 
 namespace OneNoteMarkdown.AddIn
@@ -119,6 +122,14 @@ namespace OneNoteMarkdown.AddIn
                 // Start the UI pump thread early (used for COM marshalling and
                 // for WM_HOTKEY delivery). Non-blocking.
                 UiThread.EnsureStarted();
+
+                // Initialize localization from saved settings
+                try
+                {
+                    ThemeSettings ts = ThemeSettings.Load();
+                    LocalizationManager.Initialize(ts.Language);
+                }
+                catch (Exception exLoc) { Logger.Error("Localization init failed", exLoc); }
 
                 // Enable live preview (WH_KEYBOARD_LL on a background pump thread).
                 try
@@ -286,6 +297,68 @@ namespace OneNoteMarkdown.AddIn
         public bool GetLivePreviewPressed(IRibbonControl control)
         {
             return LivePreviewService.IsEnabled;
+        }
+
+        // ─── Localized ribbon callbacks ────────────────────────────
+
+        private static readonly Dictionary<string, string> _ribbonLabelKeys = new Dictionary<string, string>
+        {
+            {"btnImportMarkdown", "Ribbon.ImportMarkdown"},
+            {"btnExportMarkdown", "Ribbon.ExportMarkdown"},
+            {"btnExportMarkdownClipboard", "Ribbon.CopyMarkdown"},
+            {"btnRenderSelection", "Ribbon.RenderSelection"},
+            {"btnRenderPage", "Ribbon.RenderPage"},
+            {"btnToggleLivePreview", "Ribbon.LiveMode"},
+            {"btnMarkdownSettings", "Ribbon.Settings"},
+            {"btnMarkdownHelp", "Ribbon.Help"},
+        };
+
+        private static readonly Dictionary<string, string> _ribbonTipKeys = new Dictionary<string, string>
+        {
+            {"btnImportMarkdown", "Ribbon.ImportMarkdown.Tip"},
+            {"btnExportMarkdown", "Ribbon.ExportMarkdown.Tip"},
+            {"btnExportMarkdownClipboard", "Ribbon.CopyMarkdown.Tip"},
+            {"btnRenderSelection", "Ribbon.RenderSelection.Tip"},
+            {"btnRenderPage", "Ribbon.RenderPage.Tip"},
+            {"btnToggleLivePreview", "Ribbon.LiveMode.Tip"},
+            {"btnMarkdownSettings", "Ribbon.Settings.Tip"},
+            {"btnMarkdownHelp", "Ribbon.Help.Tip"},
+        };
+
+        private static readonly Dictionary<string, string> _ribbonSuperTipKeys = new Dictionary<string, string>
+        {
+            {"btnImportMarkdown", "Ribbon.ImportMarkdown.SuperTip"},
+            {"btnExportMarkdown", "Ribbon.ExportMarkdown.SuperTip"},
+            {"btnExportMarkdownClipboard", "Ribbon.CopyMarkdown.SuperTip"},
+            {"btnRenderSelection", "Ribbon.RenderSelection.SuperTip"},
+            {"btnRenderPage", "Ribbon.RenderPage.SuperTip"},
+            {"btnToggleLivePreview", "Ribbon.LiveMode.SuperTip"},
+            {"btnMarkdownSettings", "Ribbon.Settings.SuperTip"},
+            {"btnMarkdownHelp", "Ribbon.Help.SuperTip"},
+        };
+
+        public string GetLabel(IRibbonControl control)
+        {
+            string key;
+            if (_ribbonLabelKeys.TryGetValue(control.Id, out key))
+                return Loc.S(key);
+            return control.Id;
+        }
+
+        public string GetScreentip(IRibbonControl control)
+        {
+            string key;
+            if (_ribbonTipKeys.TryGetValue(control.Id, out key))
+                return Loc.S(key);
+            return "";
+        }
+
+        public string GetSupertip(IRibbonControl control)
+        {
+            string key;
+            if (_ribbonSuperTipKeys.TryGetValue(control.Id, out key))
+                return Loc.S(key);
+            return "";
         }
     }
 }

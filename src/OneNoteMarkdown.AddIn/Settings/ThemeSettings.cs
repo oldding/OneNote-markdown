@@ -21,6 +21,7 @@ namespace OneNoteMarkdown.Settings
         public double CodeFontSize { get; private set; }
         public bool EnableLatexToImage { get; private set; }
         public bool EnableCodeLineNumber { get; private set; }
+        public string Language { get; private set; }
 
         private ThemeSettings()
         {
@@ -31,6 +32,7 @@ namespace OneNoteMarkdown.Settings
             CodeFontSize = 10.0;
             EnableLatexToImage = true;
             EnableCodeLineNumber = false;
+            Language = "auto";
         }
 
         public static ThemeSettings Load()
@@ -64,6 +66,7 @@ namespace OneNoteMarkdown.Settings
             if (kv.TryGetValue("font.size.code", out value)) s.CodeFontSize = ParseDouble(value, s.CodeFontSize);
             if (kv.TryGetValue("enable.latex.image", out value)) s.EnableLatexToImage = ParseBool(value, s.EnableLatexToImage);
             if (kv.TryGetValue("enable.code.lineNumber", out value)) s.EnableCodeLineNumber = ParseBool(value, s.EnableCodeLineNumber);
+            if (kv.TryGetValue("language", out value) && !string.IsNullOrWhiteSpace(value)) s.Language = value.Trim().ToLowerInvariant();
 
             return s;
         }

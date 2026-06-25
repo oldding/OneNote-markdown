@@ -2,6 +2,7 @@ using System;
 using System.Drawing;
 using System.Globalization;
 using System.Windows.Forms;
+using OneNoteMarkdown.Localization;
 using OneNoteMarkdown.Logging;
 using OneNoteMarkdown.Settings;
 
@@ -16,12 +17,13 @@ namespace OneNoteMarkdown.UI
         private TextBox _txtCodeSize;
         private CheckBox _chkLatex;
         private CheckBox _chkLineNumber;
+        private ComboBox _cboLanguage;
 
         public SettingsDialog()
         {
-            Text = "OneNote Markdown - 设置";
-            ClientSize = new Size(520, 480);
-            MinimumSize = new Size(460, 440);
+            Text = Loc.S("Dialog.Settings.Title");
+            ClientSize = new Size(520, 530);
+            MinimumSize = new Size(460, 490);
             StartPosition = FormStartPosition.CenterScreen;
             FormBorderStyle = FormBorderStyle.Sizable;
             ShowInTaskbar = true;
@@ -39,7 +41,7 @@ namespace OneNoteMarkdown.UI
             };
             Label headerLabel = new Label
             {
-                Text = "✦  主题设置",
+                Text = Loc.S("Dialog.Settings.Header"),
                 ForeColor = Color.White,
                 Font = new Font("Microsoft YaHei UI", 12f, FontStyle.Bold),
                 AutoSize = false,
@@ -64,7 +66,7 @@ namespace OneNoteMarkdown.UI
 
             Button btnSave = new Button
             {
-                Text = "保存",
+                Text = Loc.S("Settings.Save"),
                 Size = new Size(80, 32),
                 FlatStyle = FlatStyle.System
             };
@@ -72,7 +74,7 @@ namespace OneNoteMarkdown.UI
 
             Button btnCancel = new Button
             {
-                Text = "取消",
+                Text = Loc.S("Settings.Cancel"),
                 Size = new Size(80, 32),
                 FlatStyle = FlatStyle.System
             };
@@ -100,25 +102,25 @@ namespace OneNoteMarkdown.UI
             Font inputFont = new Font("Microsoft YaHei UI", 9.5f);
             Color purple = Color.FromArgb(104, 33, 122);
 
-            // Section: 字体
-            Label secFont = new Label { Text = "字体设置", Location = new Point(24, y), AutoSize = true, Font = headingFont, ForeColor = purple };
+            // Section: Font
+            Label secFont = new Label { Text = Loc.S("Settings.Section.Font"), Location = new Point(24, y), AutoSize = true, Font = headingFont, ForeColor = purple };
             content.Controls.Add(secFont);
             y += 32;
 
-            _txtFontFamily = AddField(content, "正文字体", ref y, labelFont, inputFont);
-            _txtMonoFont = AddField(content, "代码字体", ref y, labelFont, inputFont);
-            _txtMathFont = AddField(content, "数学字体", ref y, labelFont, inputFont);
-            _txtParagraphSize = AddField(content, "正文字号", ref y, labelFont, inputFont);
-            _txtCodeSize = AddField(content, "代码字号", ref y, labelFont, inputFont);
+            _txtFontFamily = AddField(content, Loc.S("Settings.FontFamily"), ref y, labelFont, inputFont);
+            _txtMonoFont = AddField(content, Loc.S("Settings.MonoFont"), ref y, labelFont, inputFont);
+            _txtMathFont = AddField(content, Loc.S("Settings.MathFont"), ref y, labelFont, inputFont);
+            _txtParagraphSize = AddField(content, Loc.S("Settings.ParagraphSize"), ref y, labelFont, inputFont);
+            _txtCodeSize = AddField(content, Loc.S("Settings.CodeSize"), ref y, labelFont, inputFont);
 
             y += 8;
-            Label secRender = new Label { Text = "渲染设置", Location = new Point(24, y), AutoSize = true, Font = headingFont, ForeColor = purple };
+            Label secRender = new Label { Text = Loc.S("Settings.Section.Render"), Location = new Point(24, y), AutoSize = true, Font = headingFont, ForeColor = purple };
             content.Controls.Add(secRender);
             y += 32;
 
             _chkLatex = new CheckBox
             {
-                Text = "启用 LaTeX 公式渲染为图片",
+                Text = Loc.S("Settings.EnableLatex"),
                 Location = new Point(24, y),
                 AutoSize = true,
                 Font = inputFont
@@ -128,18 +130,47 @@ namespace OneNoteMarkdown.UI
 
             _chkLineNumber = new CheckBox
             {
-                Text = "显示代码行号",
+                Text = Loc.S("Settings.EnableLineNumber"),
                 Location = new Point(24, y),
                 AutoSize = true,
                 Font = inputFont
             };
             content.Controls.Add(_chkLineNumber);
-            y += 30;
+            y += 36;
+
+            // Section: Language
+            Label secLang = new Label { Text = Loc.S("Settings.Section.Language"), Location = new Point(24, y), AutoSize = true, Font = headingFont, ForeColor = purple };
+            content.Controls.Add(secLang);
+            y += 32;
+
+            Label lblLang = new Label
+            {
+                Text = Loc.S("Settings.Language"),
+                Location = new Point(24, y),
+                AutoSize = true,
+                Font = labelFont,
+                ForeColor = Color.FromArgb(51, 51, 51)
+            };
+            content.Controls.Add(lblLang);
+            y += 22;
+
+            _cboLanguage = new ComboBox
+            {
+                Location = new Point(24, y),
+                Size = new Size(240, 26),
+                Font = inputFont,
+                DropDownStyle = ComboBoxStyle.DropDownList
+            };
+            _cboLanguage.Items.Add(Loc.S("Settings.Language.Auto"));
+            _cboLanguage.Items.Add(Loc.S("Settings.Language.Zh"));
+            _cboLanguage.Items.Add(Loc.S("Settings.Language.En"));
+            content.Controls.Add(_cboLanguage);
+            y += 34;
 
             y += 8;
             Label hint = new Label
             {
-                Text = "修改后重新渲染页面（F5）即可生效。\n设置文件：%AppData%\\OneNoteMarkdown\\settings\\theme.ini",
+                Text = Loc.S("Settings.Hint"),
                 Location = new Point(24, y),
                 AutoSize = true,
                 Font = new Font("Microsoft YaHei UI", 8.5f),
@@ -193,12 +224,22 @@ namespace OneNoteMarkdown.UI
             _txtCodeSize.Text = s.CodeFontSize.ToString(CultureInfo.InvariantCulture);
             _chkLatex.Checked = s.EnableLatexToImage;
             _chkLineNumber.Checked = s.EnableCodeLineNumber;
+
+            // Language dropdown: 0=auto, 1=zh, 2=en
+            string lang = (s.Language ?? "auto").Trim().ToLowerInvariant();
+            if (lang == "zh") _cboLanguage.SelectedIndex = 1;
+            else if (lang == "en") _cboLanguage.SelectedIndex = 2;
+            else _cboLanguage.SelectedIndex = 0;
         }
 
         private void SaveAndClose()
         {
             try
             {
+                string langValue = "auto";
+                if (_cboLanguage.SelectedIndex == 1) langValue = "zh";
+                else if (_cboLanguage.SelectedIndex == 2) langValue = "en";
+
                 string content =
                     "# OneNote Markdown theme settings\r\n" +
                     "# Edit values and re-render page to apply\r\n" +
@@ -208,18 +249,31 @@ namespace OneNoteMarkdown.UI
                     "font.size.paragraph=" + _txtParagraphSize.Text.Trim() + "\r\n" +
                     "font.size.code=" + _txtCodeSize.Text.Trim() + "\r\n" +
                     "enable.latex.image=" + (_chkLatex.Checked ? "true" : "false") + "\r\n" +
-                    "enable.code.lineNumber=" + (_chkLineNumber.Checked ? "true" : "false") + "\r\n";
+                    "enable.code.lineNumber=" + (_chkLineNumber.Checked ? "true" : "false") + "\r\n" +
+                    "language=" + langValue + "\r\n";
 
                 string path = ThemeSettings.EnsureDefaultFile();
                 System.IO.File.WriteAllText(path, content, new System.Text.UTF8Encoding(false));
+
+                // Apply language immediately
+                LocalizationManager.SetLanguage(langValue);
+
                 Logger.Info("Settings saved");
                 DialogResult = DialogResult.OK;
                 Close();
+
+                // Notify user about restart for full effect
+                if (langValue != LocalizationManager.OverrideSetting)
+                {
+                    Msg.Show(Loc.S("Settings.RestartHint"), Loc.S("Common.AppTitle"),
+                        MessageBoxButtons.OK, MessageBoxIcon.Information);
+                }
             }
             catch (Exception ex)
             {
                 Logger.Error("Save settings failed", ex);
-                Msg.Show("保存设置失败：" + ex.Message, "OneNote Markdown", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                Msg.Show(Loc.S("Settings.SaveFailed", ex.Message), Loc.S("Common.AppTitle"),
+                    MessageBoxButtons.OK, MessageBoxIcon.Error);
             }
         }
     }
