@@ -3,14 +3,14 @@
     <tabs>
       <tab id="tabOneNoteMarkdown" label="Markdown" insertAfterMso="TabHome">
         <group id="grpOneNoteMarkdownImport" label="Markdown">
-          <button id="btnImportMarkdown" label="导入 Markdown" onAction="OnImportMarkdown" size="large" imageMso="FileOpen" screentip="导入 Markdown" supertip="从 .md 文件导入 Markdown 原文到当前页面"/>
-          <button id="btnExportMarkdown" label="导出 Markdown" onAction="OnExportMarkdown" size="large" imageMso="FileSaveAs" screentip="导出 Markdown" supertip="将当前页面导出为 Markdown 文件"/>
-          <button id="btnExportMarkdownClipboard" label="复制 Markdown" onAction="OnExportMarkdownClipboard" size="large" imageMso="Copy" screentip="复制 Markdown" supertip="将当前页面导出为 Markdown 并复制到剪贴板"/>
-          <button id="btnRenderSelection" label="渲染选区" onAction="OnRenderSelection" size="large" imageMso="Paste" screentip="渲染选区" supertip="把当前选中的 Markdown 文本渲染成 OneNote 内容"/>
-          <button id="btnRenderPage" label="渲染整页" onAction="OnRenderPage" size="large" imageMso="ReviewAcceptChange" screentip="渲染整页" supertip="把当前页内容按 Markdown 重新渲染"/>
-          <toggleButton id="btnToggleLivePreview" label="实时模式" onAction="OnToggleLivePreview" getPressed="GetLivePreviewPressed" size="large" imageMso="Refresh" screentip="实时模式" supertip="开启或关闭 Markdown 实时预览（Ctrl+\\）"/>
-          <button id="btnMarkdownSettings" label="设置" onAction="OnSettings" size="large" imageMso="FileSave" screentip="Markdown 设置" supertip="打开 theme.ini，修改字体、字号、代码行号、LaTeX 输出等配置"/>
-          <button id="btnMarkdownHelp" label="帮助" onAction="OnHelp" size="large" imageMso="Help" screentip="帮助" supertip="查看插件功能说明、快捷键和实时模式使用方法"/>
+          <button id="btnImportMarkdown" getLabel="GetLabel" onAction="OnImportMarkdown" size="large" imageMso="FileOpen" getScreentip="GetScreentip" getSupertip="GetSupertip"/>
+          <button id="btnExportMarkdown" getLabel="GetLabel" onAction="OnExportMarkdown" size="large" imageMso="FileSaveAs" getScreentip="GetScreentip" getSupertip="GetSupertip"/>
+          <button id="btnExportMarkdownClipboard" getLabel="GetLabel" onAction="OnExportMarkdownClipboard" size="large" imageMso="Copy" getScreentip="GetScreentip" getSupertip="GetSupertip"/>
+          <button id="btnRenderSelection" getLabel="GetLabel" onAction="OnRenderSelection" size="large" imageMso="Paste" getScreentip="GetScreentip" getSupertip="GetSupertip"/>
+          <button id="btnRenderPage" getLabel="GetLabel" onAction="OnRenderPage" size="large" imageMso="ReviewAcceptChange" getScreentip="GetScreentip" getSupertip="GetSupertip"/>
+          <toggleButton id="btnToggleLivePreview" getLabel="GetLabel" onAction="OnToggleLivePreview" getPressed="GetLivePreviewPressed" size="large" imageMso="Refresh" getScreentip="GetScreentip" getSupertip="GetSupertip"/>
+          <button id="btnMarkdownSettings" getLabel="GetLabel" onAction="OnSettings" size="large" imageMso="FileSave" getScreentip="GetScreentip" getSupertip="GetSupertip"/>
+          <button id="btnMarkdownHelp" getLabel="GetLabel" onAction="OnHelp" size="large" imageMso="Help" getScreentip="GetScreentip" getSupertip="GetSupertip"/>
         </group>
       </tab>
     </tabs>

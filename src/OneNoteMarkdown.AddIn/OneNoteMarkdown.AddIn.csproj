@@ -111,9 +111,16 @@
     <Compile Include="Settings\ThemeSettings.cs" />
     <Compile Include="UI\ForceForeground.cs" />
     <Compile Include="UI\FileDialogHost.cs" />
+    <Compile Include="UI\HelpWindow.cs" />
     <Compile Include="UI\Msg.cs" />
+    <Compile Include="UI\SettingsDialog.cs" />
     <Compile Include="UI\UiThread.cs" />
     <Compile Include="UI\WindowWrapper.cs" />
+    <Compile Include="Localization\LocalizationManager.cs" />
+    <Compile Include="Localization\Loc.cs" />
+    <Compile Include="Localization\Loc.Zh.cs" />
+    <Compile Include="Localization\Loc.En.cs" />
+    <Compile Include="Localization\HelpContent.cs" />
   </ItemGroup>
   <ItemGroup>
     <EmbeddedResource Include="Ribbon\CustomUI.xml" />

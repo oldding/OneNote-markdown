@@ -1,6 +1,8 @@
 using System;
 using System.IO;
+using System.Text;
 using System.Windows.Forms;
+using OneNoteMarkdown.Localization;
 using OneNoteMarkdown.Logging;
 using OneNoteMarkdown.UI;
 
@@ -17,14 +19,13 @@ namespace OneNoteMarkdown.Features
                 string markdown = MarkdownExportService.ExportCurrentPageMarkdown(out pageTitle);
                 if (string.IsNullOrWhiteSpace(markdown))
                 {
-                    Msg.Show("当前页面内容为空，无法导出。", "OneNote Markdown", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                    Msg.Show(Loc.S("Msg.PageEmpty"), Loc.S("Common.AppTitle"), MessageBoxButtons.OK, MessageBoxIcon.Warning);
                     return;
                 }
 
                 using (SaveFileDialog dialog = new SaveFileDialog())
                 {
-                    dialog.Filter = "Markdown 文件|*.md";
-                    dialog.Title = "导出当前页为 Markdown";
+                    dialog.Filter = "Markdown|*.md";
                     dialog.FileName = string.IsNullOrWhiteSpace(pageTitle) ? "OneNotePage.md" : pageTitle + ".md";
                     DialogResult result = FileDialogHost.ShowSave(dialog);
                     Logger.Info("ExportMarkdownCommand file dialog result=" + result);
@@ -33,15 +34,15 @@ namespace OneNoteMarkdown.Features
                         return;
                     }
 
-                    File.WriteAllText(dialog.FileName, markdown);
+                    File.WriteAllText(dialog.FileName, markdown, new UTF8Encoding(false));
                     Logger.Info("ExportMarkdownCommand completed");
-                    Msg.Show("已导出当前页为 Markdown。", "OneNote Markdown", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                    Msg.Show(Loc.S("Msg.ExportSuccess"), Loc.S("Common.AppTitle"), MessageBoxButtons.OK, MessageBoxIcon.Information);
                 }
             }
             catch (Exception ex)
             {
                 Logger.Error("Export markdown failed", ex);
-                Msg.Show("导出 Markdown 失败：" + ex.Message, "OneNote Markdown", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                Msg.Show(Loc.S("Msg.ExportFailed", ex.Message), Loc.S("Common.AppTitle"), MessageBoxButtons.OK, MessageBoxIcon.Error);
             }
         }
     }

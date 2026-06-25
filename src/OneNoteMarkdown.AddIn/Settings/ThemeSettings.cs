@@ -2,6 +2,7 @@ using System;
 using System.Collections.Generic;
 using System.Globalization;
 using System.IO;
+using OneNoteMarkdown.Logging;
 
 namespace OneNoteMarkdown.Settings
 {
@@ -20,6 +21,7 @@ namespace OneNoteMarkdown.Settings
         public double CodeFontSize { get; private set; }
         public bool EnableLatexToImage { get; private set; }
         public bool EnableCodeLineNumber { get; private set; }
+        public string Language { get; private set; }
 
         private ThemeSettings()
         {
@@ -30,6 +32,7 @@ namespace OneNoteMarkdown.Settings
             CodeFontSize = 10.0;
             EnableLatexToImage = true;
             EnableCodeLineNumber = false;
+            Language = "auto";
         }
 
         public static ThemeSettings Load()
@@ -63,6 +66,7 @@ namespace OneNoteMarkdown.Settings
             if (kv.TryGetValue("font.size.code", out value)) s.CodeFontSize = ParseDouble(value, s.CodeFontSize);
             if (kv.TryGetValue("enable.latex.image", out value)) s.EnableLatexToImage = ParseBool(value, s.EnableLatexToImage);
             if (kv.TryGetValue("enable.code.lineNumber", out value)) s.EnableCodeLineNumber = ParseBool(value, s.EnableCodeLineNumber);
+            if (kv.TryGetValue("language", out value) && !string.IsNullOrWhiteSpace(value)) s.Language = value.Trim().ToLowerInvariant();
 
             return s;
         }
@@ -86,8 +90,9 @@ namespace OneNoteMarkdown.Settings
                         "enable.code.lineNumber=false\r\n");
                 }
             }
-            catch
+            catch (Exception ex)
             {
+                Logger.Error("ThemeSettings: failed to create default file", ex);
             }
             return SettingsPath;
         }
