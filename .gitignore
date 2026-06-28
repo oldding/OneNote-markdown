@@ -31,3 +31,14 @@ temp/
 ## Docs (generated screenshots kept in repo)
 docs/*.png
 !docs/demo.png
+
+## Promotion video source and generated media
+oldding.wav
+promo-videos/**/captures/
+promo-videos/**/voice/
+promo-videos/**/voice-test/
+promo-videos/**/work/
+promo-videos/**/output/
+promo-videos/**/cards/*.png
+promo-videos/**/cards/*.svg
+promo-videos/**/cards/.edge-profile/

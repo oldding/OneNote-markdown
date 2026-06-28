@@ -1,0 +1,22 @@
+{
+  "project": "OneNote Markdown",
+  "series": "OneNote Markdown 功能与实操",
+  "presenter": "OneNote MVP",
+  "referenceAudio": "../oldding.wav",
+  "voiceEngine": "VoxCPM 2.0",
+  "voiceSpeed": 1.0,
+  "master": {
+    "width": 3840,
+    "height": 2160,
+    "fps": 30
+  },
+  "shorts": {
+    "width": 1080,
+    "height": 1920,
+    "fps": 30
+  },
+  "links": {
+    "github": "https://github.com/oldding/OneNote-markdown",
+    "china": "https://nexanote.cn/"
+  }
+}
