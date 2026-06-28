@@ -31,9 +31,10 @@ If a missing answer would materially change the result, ask once. Otherwise choo
 6. Capture real before, action, and after states in the product.
 7. Write narration only after the behavior is verified.
 8. Generate voice in short chunks using only an authorized voice.
-9. Build the horizontal master first, then make a purpose-built vertical edit.
-10. Add captions, publishing copy, links, and a pinned comment.
-11. Run the quality gates in [quality-gates.md](references/quality-gates.md).
+9. Measure the synthesized narration pace before editing. Adjust speech speed and inter-chunk gaps when the preview feels slow.
+10. Build the horizontal master first, then make both a purpose-built full vertical episode and a separate vertical teaser.
+11. Add captions, publishing copy, links, and a pinned comment.
+12. Run the quality gates in [quality-gates.md](references/quality-gates.md).
 
 Read [workflow.md](references/workflow.md) for detailed production decisions.
 
@@ -44,7 +45,8 @@ Read [workflow.md](references/workflow.md) for detailed production decisions.
 - One shot list per episode.
 - Real product captures.
 - `3840x2160`, 30 fps horizontal MP4.
-- `1080x1920`, 30 fps vertical teaser.
+- `1080x1920`, 30 fps full vertical episode.
+- Separate `1080x1920`, 30 fps, 45 to 60 second vertical teaser.
 - UTF-8 SRT captions.
 - Platform-specific publishing copy.
 - Reproducible rendering scripts.
@@ -59,6 +61,8 @@ Read [workflow.md](references/workflow.md) for detailed production decisions.
 - Do not clone or synthesize a person's voice without explicit authorization.
 - Keep real product footage central. Motion cards support the demonstration; they do not replace it.
 - Use a separate vertical composition. A tiny horizontal video centered on a blurred background is only an emergency draft.
+- Never label a teaser as the completed vertical episode. A full vertical deliverable must cover the complete narration and feature sequence.
+- Do not accept the TTS engine's default pace without listening or measuring. Re-time captions whenever speech speed changes.
 
 ## VoxCPM
 
@@ -73,7 +77,7 @@ node scripts/voxcpm-generate.mjs `
 
 Set `VOXCPM_URL`, `VOXCPM_PRESET`, and `VOXCPM_PROMPT` when the defaults do not match the current project.
 
-Generate one test chunk first. Check identity, pronunciation, pauses, duration, loudness, and subtitle timing before generating the full episode.
+Generate one test chunk first. Check identity, pronunciation, pauses, duration, loudness, and subtitle timing before generating the full episode. If default-speed speech is slow, regenerate faster or apply pitch-preserving time compression; do not wait until final export to evaluate pace.
 
 ## Completion
 
@@ -82,4 +86,6 @@ Do not mark the project complete until:
 - The final files exist.
 - Duration, dimensions, frame rate, codecs, and audio streams are verified.
 - Representative frames from beginning, middle, end, and vertical output were visually inspected.
+- The full vertical duration matches the horizontal narration duration within normal muxing tolerance.
+- The vertical teaser exists as a separate file and is not substituted for the full vertical episode.
 - Links and product claims match the current repository and running software.

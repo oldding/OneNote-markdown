@@ -31,6 +31,9 @@
 ## Output
 
 - Horizontal: `3840x2160`, 30 fps.
-- Vertical: `1080x1920`, 30 fps.
+- Full vertical episode: `1080x1920`, 30 fps.
+- Vertical teaser: `1080x1920`, 30 fps, 45-60 seconds.
 - Captions: UTF-8 SRT.
 - Audio target: approximately `-16 LUFS`.
+- Narration pace:
+- Inter-chunk gap:
