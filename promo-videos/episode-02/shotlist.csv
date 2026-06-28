@@ -1,0 +1,14 @@
+chunk,section,visual,source
+01,开场,EP02 标题与语法范围卡片,card
+02,前后对比,原始 Markdown 页面切换到渲染结果,OneNote capture
+03,标题,一级到六级标题层级,OneNote capture
+04,行内样式,粗体斜体删除线高亮下划线行内代码,OneNote capture
+05,混合样式,同句混排与行内公式,OneNote capture
+06,列表,无序嵌套列表和有序列表,OneNote capture
+07,任务,已完成与未完成复选框,OneNote capture
+08,引用,引用段落与说明,OneNote capture
+09,代码高亮,C# 关键字字符串注释着色,OneNote capture
+10,代码格式,缩进和换行保持,OneNote capture
+11,LaTeX,求根公式与高斯积分,OneNote capture
+12,总结对比,原文保留与渲染结果并置,card and capture
+13,结尾,GitHub 与 nexanote.cn,card
