@@ -206,6 +206,65 @@ const cards = {
     ${text(130, 1335, "nexanote.cn", 52, { weight: 700 })}
     ${text(540, 1730, "下一集：完整 Markdown 渲染测试", 42, { anchor: "middle", fill: muted, weight: 500 })}
   `),
+  "vertical-features": verticalBase(`
+    ${text(70, 150, "八个入口", 94, { fill: purple, weight: 800 })}
+    ${text(70, 260, "覆盖完整工作流", 72, { weight: 800 })}
+    ${[
+      "导入 Markdown", "导出 Markdown", "复制 Markdown", "渲染选区",
+      "渲染整页", "实时模式", "个性化设置", "内置帮助",
+    ].map((label, index) => {
+      const col = index % 2;
+      const row = Math.floor(index / 2);
+      const x = 70 + col * 490;
+      const y = 390 + row * 340;
+      return `<rect x="${x}" y="${y}" width="450" height="285" rx="34" fill="${panel}" stroke="#fff" stroke-opacity=".13" stroke-width="3"/>
+        ${text(x + 36, y + 75, String(index + 1).padStart(2, "0"), 38, { fill: purple, weight: 800 })}
+        ${text(x + 36, y + 175, label, 38, { weight: 700 })}`;
+    }).join("")}
+  `),
+  "vertical-keys": verticalBase(`
+    ${text(70, 160, "高频操作", 58, { fill: purple, weight: 800, spacing: 5 })}
+    ${text(70, 285, "少点鼠标", 98, { weight: 800 })}
+    ${text(70, 400, "多用快捷键", 98, { weight: 800 })}
+    ${[
+      ["F5", "渲染整页"],
+      ["F8", "复制 Markdown"],
+      ["Ctrl + \\", "切换实时模式"],
+    ].map(([key, label], index) => {
+      const y = 560 + index * 390;
+      return `<rect x="70" y="${y}" width="940" height="310" rx="42" fill="${panel}" stroke="#fff" stroke-opacity=".13" stroke-width="3"/>
+        <rect x="120" y="${y + 55}" width="380" height="190" rx="30" fill="#2e2038" stroke="#fff" stroke-opacity=".3" stroke-width="3"/>
+        ${text(310, y + 175, key, 62, { anchor: "middle", weight: 800, family: "Segoe UI" })}
+        ${text(570, y + 175, label, 48, { weight: 700 })}`;
+    }).join("")}
+  `),
+  "vertical-install": verticalBase(`
+    ${text(70, 155, "安装前只看这一点", 58, { fill: purple, weight: 800 })}
+    <rect x="70" y="260" width="940" height="600" rx="54" fill="#7021a1" fill-opacity=".26" stroke="#cf8cff" stroke-opacity=".46" stroke-width="4"/>
+    ${text(130, 470, "匹配 OneNote", 92, { weight: 800 })}
+    ${text(130, 650, "位数", 180, { weight: 800 })}
+    ${text(130, 780, "不是 Windows 位数", 48, { fill: muted, weight: 500 })}
+    ${text(70, 1030, "确认路径", 54, { fill: purple, weight: 800 })}
+    ${["文件", "帐户", "关于 OneNote"].map((label, index) => {
+      const y = 1180 + index * 190;
+      return `<rect x="70" y="${y - 78}" width="110" height="110" rx="28" fill="#8b2bbf"/>
+        ${text(125, y - 2, index + 1, 50, { anchor: "middle", weight: 800 })}
+        ${text(230, y, label, 62, { weight: 700 })}`;
+    }).join("")}
+    ${text(70, 1760, "确认 32 位或 64 位，再下载对应安装包。", 42, { fill: muted, weight: 400 })}
+  `),
+  "vertical-next": verticalBase(`
+    <rect x="440" y="150" width="200" height="200" rx="46" fill="url(#vbrand)"/>
+    ${text(540, 295, "N", 130, { anchor: "middle", weight: 800, family: "Segoe UI" })}
+    ${text(540, 560, "下一集", 84, { anchor: "middle", fill: purple, weight: 800 })}
+    ${text(540, 760, "完整 Markdown", 106, { anchor: "middle", weight: 800 })}
+    ${text(540, 890, "渲染测试", 106, { anchor: "middle", weight: 800 })}
+    <rect x="70" y="1080" width="940" height="470" rx="44" fill="${panel}" stroke="#fff" stroke-opacity=".13" stroke-width="3"/>
+    ${text(130, 1190, "标题与行内样式", 48, { weight: 700 })}
+    ${text(130, 1300, "任务列表与代码高亮", 48, { weight: 700 })}
+    ${text(130, 1410, "LaTeX 数学公式", 48, { weight: 700 })}
+    ${text(540, 1750, "github.com/oldding/OneNote-markdown", 34, { anchor: "middle", fill: muted, weight: 500 })}
+  `),
 };
 
 for (const [name, svg] of Object.entries(cards)) {

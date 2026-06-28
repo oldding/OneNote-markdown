@@ -16,7 +16,8 @@ const ffmpeg =
 const ffprobe =
   process.env.FFPROBE ||
   String.raw`D:\OpenCode\AI Note\.tools\ffmpeg\ffmpeg-8.1.1-essentials_build\bin\ffprobe.exe`;
-const gap = 0.42;
+const gap = 0.22;
+const pace = 1.25;
 
 fs.mkdirSync(voiceDir, { recursive: true });
 fs.mkdirSync(outputDir, { recursive: true });
@@ -87,18 +88,39 @@ function offsetSrt(srt, offset, startIndex) {
     const [from, to] = lines[timingIndex].split(" --> ");
     const body = lines.slice(timingIndex + 1).join("\n");
     output.push(
-      `${index}\n${formatTime(parseTime(from) + offset)} --> ${formatTime(parseTime(to) + offset)}\n${body}`,
+      `${index}\n${formatTime(parseTime(from) / pace + offset)} --> ${formatTime(parseTime(to) / pace + offset)}\n${body}`,
     );
     index += 1;
   }
   return { text: output.join("\n\n"), nextIndex: index };
 }
 
+const fastVoiceDir = path.join(workDir, "voice-fast");
+fs.mkdirSync(fastVoiceDir, { recursive: true });
+
 const chunks = Array.from({ length: 9 }, (_, index) => {
   const id = String(index + 1).padStart(2, "0");
-  const audio = path.join(voiceDir, `${id}.wav`);
+  const sourceAudio = path.join(voiceDir, `${id}.wav`);
+  const audio = path.join(fastVoiceDir, `${id}.wav`);
   const srt = path.join(voiceDir, `${id}.srt`);
-  if (!fs.existsSync(audio)) throw new Error(`Missing voice chunk: ${audio}`);
+  if (!fs.existsSync(sourceAudio)) {
+    throw new Error(`Missing voice chunk: ${sourceAudio}`);
+  }
+  run(ffmpeg, [
+    "-y",
+    "-hide_banner",
+    "-loglevel",
+    "error",
+    "-i",
+    sourceAudio,
+    "-af",
+    `atempo=${pace}`,
+    "-ar",
+    "48000",
+    "-ac",
+    "1",
+    audio,
+  ]);
   return { id, audio, srt, duration: duration(audio) };
 });
 
@@ -277,7 +299,25 @@ run(ffmpeg, [
 ]);
 
 const teaser = path.join(outputDir, "OneNote-Markdown-EP01-vertical-45s.mp4");
+const verticalFull = path.join(
+  outputDir,
+  "OneNote-Markdown-EP01-vertical-full.mp4",
+);
+const verticalRawScreen = path.join(workDir, "screen-raw-vertical.png");
 const verticalScreen = path.join(workDir, "screen-rendered-vertical.png");
+run(ffmpeg, [
+  "-y",
+  "-hide_banner",
+  "-loglevel",
+  "error",
+  "-i",
+  path.join(capturesDir, "demo-page-raw.png"),
+  "-vf",
+  "scale=-2:1920,crop=1080:1920:0:0",
+  "-frames:v",
+  "1",
+  verticalRawScreen,
+]);
 run(ffmpeg, [
   "-y",
   "-hide_banner",
@@ -290,6 +330,87 @@ run(ffmpeg, [
   "-frames:v",
   "1",
   verticalScreen,
+]);
+
+const verticalImagePlan = [
+  [{ file: path.join(cardsDir, "vertical-title.png"), ratio: 1 }],
+  [{ file: path.join(cardsDir, "vertical-problem.png"), ratio: 1 }],
+  [
+    { file: verticalRawScreen, ratio: 0.42 },
+    { file: verticalScreen, ratio: 0.58 },
+  ],
+  [{ file: verticalScreen, ratio: 1 }],
+  [{ file: path.join(cardsDir, "vertical-features.png"), ratio: 1 }],
+  [{ file: path.join(cardsDir, "vertical-keys.png"), ratio: 1 }],
+  [{ file: path.join(cardsDir, "vertical-install.png"), ratio: 1 }],
+  [{ file: path.join(cardsDir, "vertical-cta.png"), ratio: 1 }],
+  [{ file: path.join(cardsDir, "vertical-next.png"), ratio: 1 }],
+];
+
+const verticalSegments = chunks.flatMap((chunk, index) => {
+  const segmentDuration =
+    chunk.duration + (index < chunks.length - 1 ? gap : 0);
+  return verticalImagePlan[index].map((item) => [
+    item.file,
+    segmentDuration * item.ratio,
+  ]);
+});
+
+const verticalFilterInputs = verticalSegments
+  .map(
+    (_, index) =>
+      `[${index}:v]fps=30,scale=1080:1920,setsar=1,format=yuv420p[v${index}]`,
+  )
+  .join(";");
+const verticalFilterConcat =
+  verticalSegments.map((_, index) => `[v${index}]`).join("") +
+  `concat=n=${verticalSegments.length}:v=1:a=0[v]`;
+
+run(ffmpeg, [
+  "-y",
+  "-hide_banner",
+  "-loglevel",
+  "error",
+  ...verticalSegments.flatMap(([file, itemDuration]) => [
+    "-loop",
+    "1",
+    "-t",
+    itemDuration.toFixed(3),
+    "-i",
+    file,
+  ]),
+  "-i",
+  voiceMaster,
+  "-i",
+  subtitles,
+  "-filter_complex",
+  `${verticalFilterInputs};${verticalFilterConcat}`,
+  "-map",
+  "[v]",
+  "-map",
+  `${verticalSegments.length}:a:0`,
+  "-map",
+  `${verticalSegments.length + 1}:s:0`,
+  "-c:v",
+  "libx264",
+  "-preset",
+  "medium",
+  "-crf",
+  "20",
+  "-c:a",
+  "aac",
+  "-b:a",
+  "160k",
+  "-c:s",
+  "mov_text",
+  "-metadata:s:s:0",
+  "language=chi",
+  "-pix_fmt",
+  "yuv420p",
+  "-shortest",
+  "-movflags",
+  "+faststart",
+  verticalFull,
 ]);
 
 const verticalPlan = [
@@ -340,4 +461,5 @@ run(ffmpeg, [
 ]);
 
 console.log(`Created ${master}`);
+console.log(`Created ${verticalFull}`);
 console.log(`Created ${teaser}`);

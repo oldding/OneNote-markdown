@@ -4,7 +4,8 @@
   "presenter": "OneNote MVP",
   "referenceAudio": "../oldding.wav",
   "voiceEngine": "VoxCPM 2.0",
-  "voiceSpeed": 1.0,
+  "voiceSpeed": 1.25,
+  "interChunkGapSeconds": 0.22,
   "master": {
     "width": 3840,
     "height": 2160,
@@ -13,7 +14,11 @@
   "shorts": {
     "width": 1080,
     "height": 1920,
-    "fps": 30
+    "fps": 30,
+    "outputs": [
+      "full episode",
+      "45-second teaser"
+    ]
   },
   "links": {
     "github": "https://github.com/oldding/OneNote-markdown",
