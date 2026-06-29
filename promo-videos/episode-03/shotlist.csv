@@ -1,0 +1,9 @@
+chunk,section,visual,source
+01,开场,EP03 标题与三个快捷键,card
+02,真实边界,源码状态与原位预览流程说明,card and OneNote capture
+03,实时演示,任务源码切换为 OneNote 复选框,OneNote captures
+04,提交延迟,0.2 到 0.5 秒时序说明,card and OneNote capture
+05,F5,整页原文与下方追加结果对比,OneNote captures
+06,F8,复制当前页 Markdown 与成功提示,card
+07,Ctrl反斜杠,开启关闭实时模式流程,card
+08,使用建议与下载,场景建议和 GitHub/nexanote.cn,card
