@@ -1,0 +1,10 @@
+chunk,section,visual,source
+01,开场,EP04 标题与功能总览,card
+02,导入 README,Markdown 功能区与 README.md 文件选择,OneNote captures
+03,导入结果,导入后的真实 OneNote 渲染页面,OneNote capture
+04,导出文件,默认文件名与 .md 保存类型,OneNote capture
+05,复制 Markdown,F8 与复制成功提示,OneNote capture
+06,字体字号,设置窗口中的三类字体和两类字号,OneNote capture
+07,代码行号,代码行号开关与用途说明,OneNote capture and card
+08,界面语言,自动、中文、English 与重启提示,OneNote capture and card
+09,总结下载,三条工作路径与 GitHub/nexanote.cn,card
