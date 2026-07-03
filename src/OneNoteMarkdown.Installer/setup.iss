@@ -19,7 +19,7 @@
 [Setup]
 AppId={{7D0C9CB6-5D83-4E17-89D5-1C8A285F52B4}
 AppName=OneNote Markdown
-AppVersion=1.1.0
+AppVersion=1.2.0
 AppPublisher=OneNote Markdown
 DefaultDirName={#InstallerDefaultDir}
 DefaultGroupName=OneNote Markdown
@@ -60,13 +60,13 @@ Root: {#ComRoot}; Subkey: "CLSID\{{0A92B61B-98B8-4E5D-BE2D-48EDB01ED177}\Impleme
 Root: {#ComRoot}; Subkey: "CLSID\{{0A92B61B-98B8-4E5D-BE2D-48EDB01ED177}\InprocServer32"; ValueType: string; ValueData: "mscoree.dll"; Flags: uninsdeletekey
 Root: {#ComRoot}; Subkey: "CLSID\{{0A92B61B-98B8-4E5D-BE2D-48EDB01ED177}\InprocServer32"; ValueType: string; ValueName: "ThreadingModel"; ValueData: "Both"
 Root: {#ComRoot}; Subkey: "CLSID\{{0A92B61B-98B8-4E5D-BE2D-48EDB01ED177}\InprocServer32"; ValueType: string; ValueName: "Class"; ValueData: "OneNoteMarkdown.AddIn.Connect"
-Root: {#ComRoot}; Subkey: "CLSID\{{0A92B61B-98B8-4E5D-BE2D-48EDB01ED177}\InprocServer32"; ValueType: string; ValueName: "Assembly"; ValueData: "OneNoteMarkdown.AddIn, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null"
+Root: {#ComRoot}; Subkey: "CLSID\{{0A92B61B-98B8-4E5D-BE2D-48EDB01ED177}\InprocServer32"; ValueType: string; ValueName: "Assembly"; ValueData: "OneNoteMarkdown.AddIn, Version=1.2.0.0, Culture=neutral, PublicKeyToken=null"
 Root: {#ComRoot}; Subkey: "CLSID\{{0A92B61B-98B8-4E5D-BE2D-48EDB01ED177}\InprocServer32"; ValueType: string; ValueName: "RuntimeVersion"; ValueData: "v4.0.30319"
 Root: {#ComRoot}; Subkey: "CLSID\{{0A92B61B-98B8-4E5D-BE2D-48EDB01ED177}\InprocServer32"; ValueType: string; ValueName: "CodeBase"; ValueData: "{app}\OneNoteMarkdown.AddIn.dll"
-Root: {#ComRoot}; Subkey: "CLSID\{{0A92B61B-98B8-4E5D-BE2D-48EDB01ED177}\InprocServer32\1.0.0.0"; ValueType: string; ValueName: "Class"; ValueData: "OneNoteMarkdown.AddIn.Connect"
-Root: {#ComRoot}; Subkey: "CLSID\{{0A92B61B-98B8-4E5D-BE2D-48EDB01ED177}\InprocServer32\1.0.0.0"; ValueType: string; ValueName: "Assembly"; ValueData: "OneNoteMarkdown.AddIn, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null"
-Root: {#ComRoot}; Subkey: "CLSID\{{0A92B61B-98B8-4E5D-BE2D-48EDB01ED177}\InprocServer32\1.0.0.0"; ValueType: string; ValueName: "RuntimeVersion"; ValueData: "v4.0.30319"
-Root: {#ComRoot}; Subkey: "CLSID\{{0A92B61B-98B8-4E5D-BE2D-48EDB01ED177}\InprocServer32\1.0.0.0"; ValueType: string; ValueName: "CodeBase"; ValueData: "{app}\OneNoteMarkdown.AddIn.dll"
+Root: {#ComRoot}; Subkey: "CLSID\{{0A92B61B-98B8-4E5D-BE2D-48EDB01ED177}\InprocServer32\1.2.0.0"; ValueType: string; ValueName: "Class"; ValueData: "OneNoteMarkdown.AddIn.Connect"
+Root: {#ComRoot}; Subkey: "CLSID\{{0A92B61B-98B8-4E5D-BE2D-48EDB01ED177}\InprocServer32\1.2.0.0"; ValueType: string; ValueName: "Assembly"; ValueData: "OneNoteMarkdown.AddIn, Version=1.2.0.0, Culture=neutral, PublicKeyToken=null"
+Root: {#ComRoot}; Subkey: "CLSID\{{0A92B61B-98B8-4E5D-BE2D-48EDB01ED177}\InprocServer32\1.2.0.0"; ValueType: string; ValueName: "RuntimeVersion"; ValueData: "v4.0.30319"
+Root: {#ComRoot}; Subkey: "CLSID\{{0A92B61B-98B8-4E5D-BE2D-48EDB01ED177}\InprocServer32\1.2.0.0"; ValueType: string; ValueName: "CodeBase"; ValueData: "{app}\OneNoteMarkdown.AddIn.dll"
 Root: {#ComRoot}; Subkey: "CLSID\{{0A92B61B-98B8-4E5D-BE2D-48EDB01ED177}\ProgId"; ValueType: string; ValueData: "OneNoteMarkdown.Connect"
 Root: {#ComRoot}; Subkey: "CLSID\{{0A92B61B-98B8-4E5D-BE2D-48EDB01ED177}\Programmable"; ValueType: string; ValueData: ""
 Root: {#ComRoot}; Subkey: "CLSID\{{0A92B61B-98B8-4E5D-BE2D-48EDB01ED177}\TypeLib"; ValueType: string; ValueData: "{{5C3E37E8-7D8A-41E5-9D3D-6B5A1C92B7D1}"
